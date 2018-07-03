@@ -190,7 +190,6 @@ GameObject:
   m_Component:
   - component: {fileID: 161873722}
   - component: {fileID: 161873721}
-  - component: {fileID: 161873720}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -198,27 +197,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &161873720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 161873719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef687f2999ee55345bef9cb37b99a31b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  apikey: AzXBh1RtmT2lcGRxcaIs4Moi
-  screatKey: w4uHwQsb2uctC5Vb4OEU8SIkhAOF18qB
-  fileName: t1.png
-  showRes: {fileID: 259993996}
-  littlePhoto: {fileID: 575430553}
-  rawimage: {fileID: 0}
-  canvas: {fileID: 1237146754}
-  CanScaler: {fileID: 1250175136}
-  ca: {fileID: 1653532232}
-  img: {fileID: 49682524}
 --- !u!108 &161873721
 Light:
   m_ObjectHideFlags: 0
@@ -546,6 +524,54 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1078209939}
+--- !u!1 &1083769056
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1083769058}
+  - component: {fileID: 1083769057}
+  m_Layer: 0
+  m_Name: TEST
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1083769057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1083769056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef687f2999ee55345bef9cb37b99a31b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  apikey: AzXBh1RtmT2lcGRxcaIs4Moi
+  screatKey: w4uHwQsb2uctC5Vb4OEU8SIkhAOF18qB
+  showRes: {fileID: 259993996}
+  littlePhoto: {fileID: 575430553}
+  canvas: {fileID: 1237146754}
+  CanScaler: {fileID: 1250175136}
+  ca: {fileID: 1653532232}
+  img: {fileID: 49682524}
+--- !u!4 &1083769058
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1083769056}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 424.9567, y: 116.81009, z: -1.465057}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1237146754
 GameObject:
   m_ObjectHideFlags: 0
@@ -724,7 +750,7 @@ GameObject:
   - component: {fileID: 1604447299}
   - component: {fileID: 1604447298}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Recon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -788,7 +814,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 161873720}
+      - m_Target: {fileID: 1083769057}
         m_MethodName: Go
         m_Mode: 1
         m_Arguments:

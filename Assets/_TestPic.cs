@@ -10,6 +10,9 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Collections;
+
+
+//读取JSON 用的类
 public class Result
 {
   public string name;
@@ -25,61 +28,39 @@ public class Result
         set { score = value; }
     }
 }
-
-
-
 public class _TestPic : MonoBehaviour {
+
+// 自己申请的KEY
     public string apikey="";
     public string screatKey = "";
     ImageClassify imc;
-    string imagePath = "";
-    public string fileName = "";
+  
     public Text showRes;
     string jsonString;
 
-
-
-    //public WebCamTexture cameraTexture;
-    //public string cameraName = "";
     public Image littlePhoto;
 
-
-    public RawImage rawimage;
     Texture2D imageScreenShoot;
     public GameObject canvas;
 
 
     WebCamTexture camTexture;
- public    CanvasScaler CanScaler;
- public    Camera ca;
-  public   Image img;
-    //  var client = new Baidu.Aip.ImageClassify.ImageClassify(apiKey,secretKey);
-    // Use this for initialization
+    public    CanvasScaler CanScaler;
+    public    Camera ca;
+    public   Image img;
+  
     void Start () {
-        imagePath = Application.streamingAssetsPath+"/"+fileName;
+        //这句话解决不能连接到主机的问题
         ServicePointManager.ServerCertificateValidationCallback = MyRemoteCertificateValidationCallback;
+       //初始化
         imc = new ImageClassify(apikey,screatKey);
         imc.Timeout = 60000;
-        //#if UNITY_IOS || UNITY_IPHONE
-        //       rawimage.transform.Rotate (new Vector3 (0, 180, 90));
-        //#elif UNITY_ANDROID
-        //        rawimage.transform.Rotate (new Vector3 (0, 0, 90));
-        //#endif
-        //       // StartCoroutine(OpenCamera());
+
+
         imageScreenShoot = new Texture2D(Screen.width,Screen.height,TextureFormat.RGB24,false);
-
-
-
-      //  img = GetComponentInChildren<Image>();
-
-        //CanScaler = GetComponentInChildren<CanvasScaler>();
         CanScaler.referenceResolution = new Vector2(Screen.width, Screen.height);
-
-       // ca = GetComponentInChildren<Camera>();
         ca.orthographicSize = Screen.width / 100.0f / 2.0f;
-
         img.transform.localScale = new Vector3(-1, -1, -1);
-
         img.rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
         img.rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
         img.rectTransform.pivot = new Vector2(0.5f, 0.5f);
@@ -95,68 +76,34 @@ public class _TestPic : MonoBehaviour {
 #endif
 
         StartCoroutine(CallCamera());
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void Go()
     {
         StartCoroutine(TakeAPhoto());
-        _DebugText.instance.De("Go");
+       
     }
 
      void TestFunc(byte[] imageBytes)
     {
-       // _DebugText.instance.De("TestFunc");
-
-        // byte[] bytesPNG = GetImageByte();
+       
         JObject jj = imc.AnimalDetect(imageBytes);
-        //   imc.AnimalDetect(GetImageByte());
-        // Dictionary<string, string> jsdata = new Dictionary<string, string>();
-        
-
-       // Console.WriteLine(jj);
         foreach (var item in jj)
         {
             jsonString = item.Value.ToString();
         
         }
-       // _DebugText.instance.De(jsonString+  "JS!!!");
-
         List<Result> rrr = new List<Result>();
+        //有6个结果  第一个相似度 最高    这里只取了第一个
         rrr =JsonConvert.DeserializeObject<List<Result>>(jsonString);
-
         showRes.text = "识别结果：" + rrr[0].name + "  相似度：" +( Convert.ToSingle(rrr[0].score.ToString())*100).ToString()+"%";
-      //  _DebugText.instance.De("识别结果：" + rrr[0].name + "  相似度：" + (Convert.ToSingle(rrr[0].score.ToString()) * 100).ToString() + "%");
-
     }
-   
+   //这个方法 解决了不能  不能连接到主机的问题
     public bool MyRemoteCertificateValidationCallback(System.Object sender,
     X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
     {
         bool isOk = true;
-        // If there are errors in the certificate chain,
-        // look at each error to determine the cause.
+     
         if (sslPolicyErrors != SslPolicyErrors.None)
         {
             for (int i = 0; i < chain.ChainStatus.Length; i++)
@@ -179,21 +126,10 @@ public class _TestPic : MonoBehaviour {
         }
         return isOk;
     }
-    //IEnumerator OpenCamera()
-    //{
-    //    yield return Application.RequestUserAuthorization(UserAuthorization.WebCam);
-    //    if (Application.HasUserAuthorization(UserAuthorization.WebCam))
-    //    {
-    //        WebCamDevice[] devices = WebCamTexture.devices;
-    //        cameraName = devices[0].name;
-    //        cameraTexture = new WebCamTexture(cameraName, Screen.width, Screen.height, 15);
-    //        rawimage.texture = cameraTexture;
-    //        cameraTexture.Play();
-    //    }
-    //}
+    //不用解释
     IEnumerator TakeAPhoto()
     {
-       // _DebugText.instance.De("TkePhoto");
+       
         Texture2D temp = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
        
         canvas.SetActive(false);
@@ -205,15 +141,16 @@ public class _TestPic : MonoBehaviour {
         littlePhoto.sprite = Sprite.Create(temp, new Rect(0, 0, Screen.width, Screen.height), new Vector2(0, 0));
          
         imageScreenShoot.ReadPixels(new Rect(0, 0, Screen.width-400, Screen.height-400), 0, 0, false);
-        canvas.SetActive(true);
+        
        
         imageScreenShoot.Apply();
-        
-       // imageScreenShoot.format=TextureFormat.
+    
         byte[] bs = imageScreenShoot.EncodeToPNG();
-        print(bs.Length);
+       
+        canvas.SetActive(true);
         TestFunc(bs);
     }
+    //不用解释
     IEnumerator CallCamera()
     {
         yield return Application.RequestUserAuthorization(UserAuthorization.WebCam);
